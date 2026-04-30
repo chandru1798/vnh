@@ -1,0 +1,641 @@
+<!--
+=======================================================
+  VEDANAYAGAM HOSPITAL — RESPONSIVE BANNER SLIDER
+  WordPress Usage:
+  ─────────────────────────────────────────────────────
+  OPTION A (Elementor):
+    1. Drag "HTML" widget into a full-width section
+    2. Paste this entire code into the HTML field
+    3. Set section padding to 0 on all sides
+    4. Save & preview
+
+  OPTION B (Gutenberg / Classic Editor):
+    1. Add a "Custom HTML" block
+    2. Paste this entire code
+    3. Publish & view
+
+  OPTION C (Theme header.php / functions.php):
+    Paste the <style> block in your theme's CSS file,
+    paste the HTML in your template, and the <script>
+    at the bottom of the page.
+
+  IMAGE SWAP:
+    Replace src="YOUR_IMAGE_URL_HERE" with your
+    actual image URLs uploaded to WordPress Media.
+=======================================================
+-->
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset & Base ───────────────────────────────── */
+.vh-slider *{box-sizing:border-box;margin:0;padding:0;}
+.vh-slider{
+  font-family:'Nunito',sans-serif;
+  width:100%;
+  overflow:hidden;
+  position:relative;
+  border-radius:20px;
+  box-shadow:0 8px 40px rgba(0,80,60,0.12);
+}
+
+/* ── Track ──────────────────────────────────────── */
+.vh-track{
+  display:flex;
+  transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+
+/* ── Each Slide ─────────────────────────────────── */
+.vh-slide{
+  min-width:100%;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  min-height:420px;
+  padding:48px 60px 36px 60px;
+}
+
+/* Slide backgrounds */
+.vh-slide-1{background:linear-gradient(135deg,#c8ede8 0%,#a8dfd8 40%,#d0f0ea 100%);}
+.vh-slide-2{background:linear-gradient(135deg,#bce8e2 0%,#9ddbd4 40%,#c8ebe5 100%);}
+.vh-slide-3{background:linear-gradient(135deg,#c4e9e4 0%,#a4dcd6 40%,#cceee8 100%);}
+.vh-slide-4{background:linear-gradient(135deg,#c0e8e4 0%,#9cdad5 40%,#c8ece8 100%);}
+
+/* Decorative circle bg */
+.vh-slide::before{
+  content:'';
+  position:absolute;
+  right:-60px; top:-60px;
+  width:380px; height:380px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  pointer-events:none;
+}
+.vh-slide::after{
+  content:'';
+  position:absolute;
+  right:120px; bottom:-80px;
+  width:200px; height:200px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.10);
+  pointer-events:none;
+}
+
+/* ── Left Content ───────────────────────────────── */
+.vh-content{
+  flex:0 0 52%;
+  position:relative;
+  z-index:2;
+  padding-right:32px;
+}
+
+.vh-badge{
+  display:inline-block;
+  background:rgba(13,100,80,0.15);
+  color:#0a4f40;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  padding:5px 14px;
+  border-radius:30px;
+  margin-bottom:16px;
+}
+
+.vh-heading{
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(26px, 3.5vw, 44px);
+  font-weight:900;
+  color:#0a3830;
+  line-height:1.1;
+  letter-spacing:-0.02em;
+  margin-bottom:12px;
+}
+
+.vh-subheading{
+  font-family:'Lora',serif;
+  font-size:clamp(14px, 1.5vw, 18px);
+  font-style:italic;
+  font-weight:500;
+  color:#165e4e;
+  margin-bottom:8px;
+  line-height:1.5;
+}
+
+.vh-desc{
+  font-size:clamp(12px, 1.1vw, 14px);
+  color:#1d6b5a;
+  line-height:1.7;
+  margin-bottom:20px;
+  max-width:420px;
+}
+
+.vh-specialties{
+  font-size:13px;
+  color:#1d7060;
+  font-weight:600;
+  margin-bottom:24px;
+  letter-spacing:0.02em;
+}
+
+.vh-btn{
+  display:inline-block;
+  padding:13px 32px;
+  border:2.5px solid #0a6e58;
+  border-radius:50px;
+  background:rgba(255,255,255,0.5);
+  color:#0a5244;
+  font-family:'Nunito',sans-serif;
+  font-size:14px;
+  font-weight:800;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all 0.25s ease;
+  backdrop-filter:blur(4px);
+  letter-spacing:0.01em;
+}
+.vh-btn:hover{
+  background:#0a6e58;
+  color:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(10,110,88,0.3);
+}
+
+/* ── Stats row ──────────────────────────────────── */
+.vh-stats{
+  display:flex;
+  gap:0;
+  margin-top:28px;
+  padding-top:20px;
+  border-top:1px solid rgba(10,80,64,0.15);
+}
+.vh-stat{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding-right:24px;
+  margin-right:24px;
+  border-right:1px solid rgba(10,80,64,0.18);
+}
+.vh-stat:last-child{border-right:none;margin-right:0;padding-right:0;}
+.vh-stat svg{width:28px;height:28px;color:#0a8870;flex-shrink:0;}
+.vh-stat-text strong{display:block;font-size:14px;font-weight:800;color:#0a3830;}
+.vh-stat-text span{font-size:11px;color:#2a7a6a;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;}
+
+/* ── Right Image ────────────────────────────────── */
+.vh-image{
+  flex:0 0 48%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  z-index:2;
+  min-height:320px;
+}
+.vh-image img{
+  max-width:100%;
+  max-height:340px;
+  object-fit:contain;
+  filter:drop-shadow(0 8px 24px rgba(0,60,48,0.15));
+  animation:vh-float 4s ease-in-out infinite;
+}
+@keyframes vh-float{
+  0%,100%{transform:translateY(0px);}
+  50%{transform:translateY(-8px);}
+}
+
+/* 45 Years badge */
+.vh-badge-45{
+  position:absolute;
+  top:10px; right:10px;
+  width:72px; height:72px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 16px rgba(0,60,48,0.18);
+  border:3px solid #0a8870;
+  z-index:5;
+}
+.vh-badge-45 .b45-num{font-size:26px;font-weight:900;color:#0a3830;line-height:1;}
+.vh-badge-45 .b45-txt{font-size:8px;font-weight:800;color:#0a8870;text-transform:uppercase;letter-spacing:0.06em;text-align:center;}
+
+/* ── Navigation Arrows ──────────────────────────── */
+.vh-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px; height:44px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(10,80,64,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:10;
+  font-size:20px;
+  color:#0a5244;
+  font-weight:bold;
+  transition:all 0.2s;
+  backdrop-filter:blur(6px);
+  user-select:none;
+  line-height:1;
+}
+.vh-arrow:hover{background:white;box-shadow:0 4px 16px rgba(0,80,64,0.2);}
+.vh-prev{left:16px;}
+.vh-next{right:16px;}
+
+/* ── Dots ───────────────────────────────────────── */
+.vh-dots{
+  position:absolute;
+  bottom:14px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:7px;
+  z-index:10;
+}
+.vh-dot{
+  width:8px; height:8px;
+  border-radius:50%;
+  background:rgba(10,80,64,0.25);
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.vh-dot.active{width:24px;border-radius:4px;background:#0a8870;}
+
+/* ── Animations ─────────────────────────────────── */
+.vh-slide .vh-content > *{
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity 0.5s ease, transform 0.5s ease;
+}
+.vh-slide.is-active .vh-content > *{opacity:1;transform:translateY(0);}
+.vh-slide.is-active .vh-content > *:nth-child(1){transition-delay:0.05s;}
+.vh-slide.is-active .vh-content > *:nth-child(2){transition-delay:0.12s;}
+.vh-slide.is-active .vh-content > *:nth-child(3){transition-delay:0.19s;}
+.vh-slide.is-active .vh-content > *:nth-child(4){transition-delay:0.26s;}
+.vh-slide.is-active .vh-content > *:nth-child(5){transition-delay:0.33s;}
+.vh-slide.is-active .vh-content > *:nth-child(6){transition-delay:0.40s;}
+
+/* ══════════════════════════════════════════════════
+   MOBILE — under 768px stacks vertically
+═══════════════════════════════════════════════════ */
+@media(max-width:768px){
+
+  .vh-slide{
+    flex-direction:column;
+    align-items:flex-start;
+    min-height:auto;
+    padding:24px 20px 16px 20px;
+  }
+
+  .vh-slide::before{
+    right:-40px; top:-40px;
+    width:200px; height:200px;
+  }
+  .vh-slide::after{display:none;}
+
+  .vh-content{
+    flex:none;
+    width:100%;
+    padding-right:0;
+    order:1;
+  }
+
+  .vh-heading{
+    font-size:clamp(22px,6vw,28px);
+    margin-bottom:8px;
+  }
+
+  .vh-subheading{font-size:14px;margin-bottom:6px;}
+
+  .vh-desc{
+    font-size:12.5px;
+    margin-bottom:14px;
+    max-width:100%;
+  }
+
+  .vh-specialties{font-size:12px;margin-bottom:16px;}
+
+  .vh-btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    padding:13px 20px;
+    font-size:14px;
+  }
+
+  .vh-image{
+    flex:none;
+    width:100%;
+    min-height:180px;
+    order:2;
+    margin:14px 0 10px;
+  }
+  .vh-image img{max-height:180px;}
+
+  .vh-badge-45{
+    top:8px; right:8px;
+    width:56px; height:56px;
+  }
+  .vh-badge-45 .b45-num{font-size:20px;}
+
+  .vh-stats{
+    flex-wrap:nowrap;
+    gap:0;
+    overflow-x:auto;
+    margin-top:16px;
+    padding-top:14px;
+    order:3;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .vh-stats::-webkit-scrollbar{display:none;}
+
+  .vh-stat{
+    flex:0 0 auto;
+    padding-right:14px;
+    margin-right:14px;
+  }
+  .vh-stat svg{width:20px;height:20px;}
+  .vh-stat-text strong{font-size:12px;}
+  .vh-stat-text span{font-size:10px;}
+
+  .vh-arrow{
+    width:34px; height:34px;
+    font-size:16px;
+    top:auto;
+    bottom:50px;
+    transform:none;
+  }
+  .vh-prev{left:10px;}
+  .vh-next{right:10px;}
+
+  .vh-dots{bottom:10px;}
+  .vh-dot{width:6px;height:6px;}
+  .vh-dot.active{width:18px;}
+}
+
+@media(max-width:480px){
+  .vh-slide{padding:20px 16px 14px 16px;}
+  .vh-heading{font-size:22px;}
+  .vh-image img{max-height:155px;}
+}
+</style>
+
+<!-- ═══════════════════ SLIDER HTML ═══════════════════ -->
+<div class="vh-slider" id="vhSlider">
+
+  <div class="vh-track" id="vhTrack">
+
+    <!-- ── SLIDE 1: Hero ──────────────────────────── -->
+    <div class="vh-slide vh-slide-1 is-active">
+      <div class="vh-content">
+        <span class="vh-badge">&#9733; NABH Entry-Level Accredited</span>
+        <h2 class="vh-heading">Your Health,<br>Our Priority</h2>
+        <p class="vh-subheading">Trusted Multispeciality Care in Coimbatore</p>
+        <p class="vh-specialties">Urology &bull; Nephrology &bull; Gastroenterology</p>
+        <a href="#appointment" class="vh-btn">Book an Appointment Today</a>
+        <div class="vh-stats">
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="vh-stat-text"><strong>135k+</strong><span>Happy Patients</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+            <div class="vh-stat-text"><strong>Expert</strong><span>Doctors</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+            <div class="vh-stat-text"><strong>24/7</strong><span>Emergency Care</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="vh-image">
+        <div class="vh-badge-45">
+          <span class="b45-num">45</span>
+          <span class="b45-txt">Years of<br>Excellence</span>
+        </div>
+        <!--
+          REPLACE src BELOW with your hospital building image URL from WordPress Media Library
+          Example: src="https://yoursite.com/wp-content/uploads/hospital-building.png"
+        -->
+        <img src="YOUR_IMAGE_URL_HERE" alt="Vedanayagam Hospital Building"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <!-- Fallback SVG if no image provided -->
+        <svg style="display:none;width:260px;height:200px;" viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="50" width="200" height="140" rx="4" fill="white" stroke="#ddd" stroke-width="1"/>
+          <rect x="30" y="46" width="200" height="16" fill="#e53030" rx="3"/>
+          <rect x="30" y="62" width="45" height="128" fill="#4a9bdc"/>
+          <rect x="85" y="70" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="120" y="70" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="155" y="70" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="195" y="70" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="85" y="100" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="120" y="100" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="155" y="100" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="195" y="100" width="26" height="20" rx="2" fill="#d0edf9" stroke="#e53030" stroke-width="1.5"/>
+          <rect x="100" y="160" width="50" height="30" rx="2" fill="#c8a96a"/>
+          <rect x="44" y="38" width="172" height="14" rx="2" fill="#e53030"/>
+          <text x="130" y="49" text-anchor="middle" font-size="9" font-weight="700" fill="white" font-family="sans-serif">VEDANAYAGAM HOSPITAL</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── SLIDE 2: Urology ───────────────────────── -->
+    <div class="vh-slide vh-slide-2">
+      <div class="vh-content">
+        <span class="vh-badge">UROLOGY</span>
+        <h2 class="vh-heading">Advanced<br>Urology Care</h2>
+        <p class="vh-desc">With over 45 years of trusted healthcare service, we specialize in advanced urology treatments — providing effective care for kidney stones, prostate conditions, and urinary disorders.</p>
+        <a href="#urology" class="vh-btn">Consult a Urologist Today</a>
+        <div class="vh-stats">
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><ellipse cx="8" cy="11" rx="4" ry="6"/><ellipse cx="16" cy="11" rx="4" ry="6"/><path d="M12 17v4"/><path d="M9 21h6"/></svg>
+            <div class="vh-stat-text"><strong>Laser</strong><span>Kidney Stone Removal</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 3c-4 0-7 3-7 7 0 5 7 11 7 11s7-6 7-11c0-4-3-7-7-7z"/></svg>
+            <div class="vh-stat-text"><strong>Prostate</strong><span>BPH Treatment</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 2v20M6 7l6-5 6 5M6 17l6 5 6-5"/></svg>
+            <div class="vh-stat-text"><strong>UTI</strong><span>Urinary Tract Infection</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="vh-image">
+        <!-- REPLACE with your urology image URL -->
+        <img src="YOUR_UROLOGY_IMAGE_URL_HERE" alt="Advanced Urology Care"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <svg style="display:none;width:240px;height:220px;" viewBox="0 0 160 180" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="52" cy="80" rx="30" ry="42" fill="#c0392b" opacity="0.85"/>
+          <ellipse cx="52" cy="80" rx="18" ry="28" fill="#e74c3c" opacity="0.6"/>
+          <ellipse cx="108" cy="80" rx="30" ry="42" fill="#c0392b" opacity="0.85"/>
+          <ellipse cx="108" cy="80" rx="18" ry="28" fill="#e74c3c" opacity="0.6"/>
+          <rect x="77" y="28" width="6" height="55" rx="3" fill="#e74c3c"/>
+          <path d="M77 60 Q65 57 60 57" stroke="#e74c3c" stroke-width="4" fill="none"/>
+          <path d="M83 60 Q95 57 100 57" stroke="#e74c3c" stroke-width="4" fill="none"/>
+          <path d="M65 96 Q80 108 80 125" stroke="#3498db" stroke-width="5" fill="none"/>
+          <path d="M95 96 Q80 108 80 125" stroke="#3498db" stroke-width="5" fill="none"/>
+          <ellipse cx="80" cy="135" rx="20" ry="15" fill="#3498db" opacity="0.7"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── SLIDE 3: Gastroenterology ──────────────── -->
+    <div class="vh-slide vh-slide-3">
+      <div class="vh-content">
+        <span class="vh-badge">GASTROENTEROLOGY</span>
+        <h2 class="vh-heading">Expert Gastroenterology Care for Digestive Health</h2>
+        <p class="vh-desc">Advanced hernia care with open and minimally invasive (laparoscopic/keyhole) procedures, delivered by an experienced team using modern technology.</p>
+        <a href="#gastro" class="vh-btn">Consult a Gastroenterologist Today</a>
+        <div class="vh-stats">
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="vh-stat-text"><strong>Endoscopy</strong><span>&amp; Colonoscopy</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="9" ry="6"/><path d="M12 8 C16 5 20 8 20 12"/><circle cx="12" cy="14" r="2.5"/></svg>
+            <div class="vh-stat-text"><strong>Liver Disease</strong><span>Treatment</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M4 12 Q6 8 8 12 Q10 16 12 12 Q14 8 16 12 Q18 16 20 12"/></svg>
+            <div class="vh-stat-text"><strong>IBS &amp; Acidity</strong><span>Management</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="vh-image">
+        <!-- REPLACE with your gastroenterology image URL -->
+        <img src="YOUR_GASTRO_IMAGE_URL_HERE" alt="Gastroenterology Care"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <svg style="display:none;width:220px;height:230px;" viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="82" cy="45" rx="44" ry="26" fill="#c0392b" opacity="0.8"/>
+          <ellipse cx="68" cy="47" rx="28" ry="18" fill="#e74c3c" opacity="0.45"/>
+          <ellipse cx="90" cy="66" rx="10" ry="8" fill="#27ae60" opacity="0.9"/>
+          <ellipse cx="58" cy="74" rx="20" ry="16" fill="#e8a87c" opacity="0.8"/>
+          <path d="M36 88 Q14 88 12 112 Q10 146 28 158 Q52 174 82 174 Q112 174 134 158 Q148 146 146 112 Q144 88 124 88" stroke="#e8a87c" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.9"/>
+          <path d="M58 88 Q68 100 80 95 Q92 88 104 100 Q116 112 104 124 Q92 136 80 128 Q68 120 72 136 Q76 152 88 148" stroke="#f0c080" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.85"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── SLIDE 4: Nephrology ────────────────────── -->
+    <div class="vh-slide vh-slide-4">
+      <div class="vh-content">
+        <span class="vh-badge">NEPHROLOGY</span>
+        <h2 class="vh-heading">Complete Kidney Care — Diagnosis to Transplant</h2>
+        <p class="vh-desc" style="font-style:italic;font-family:'Lora',serif;">Protect your kidneys with expert nephrology care from our dedicated specialists.</p>
+        <a href="#nephrology" class="vh-btn">Consult a Nephrologist Today</a>
+        <div class="vh-stats">
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="2" y="7" width="9" height="12" rx="1"/><path d="M2 11h9"/><path d="M11 12h8l2 7H9l2-7z"/><line x1="16" y1="7" x2="16" y2="12"/></svg>
+            <div class="vh-stat-text"><strong>Dialysis</strong><span>HD &amp; Peritoneal</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><ellipse cx="8" cy="12" rx="5" ry="7"/><ellipse cx="16" cy="12" rx="5" ry="7"/><circle cx="12" cy="7" r="2"/></svg>
+            <div class="vh-stat-text"><strong>Chronic Kidney</strong><span>Disease Care</span></div>
+          </div>
+          <div class="vh-stat">
+            <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M5 12c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M3 15c0-2 2-4 5-4s5 2 5 4"/><polyline points="15 17 18 14 21 17"/></svg>
+            <div class="vh-stat-text"><strong>Kidney</strong><span>Transplant</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="vh-image">
+        <!-- REPLACE with your nephrology/kidney image URL -->
+        <img src="YOUR_NEPHROLOGY_IMAGE_URL_HERE" alt="Kidney Care and Transplant"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <svg style="display:none;width:260px;height:220px;" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="58" cy="88" rx="44" ry="60" fill="#d44" opacity="0.9"/>
+          <ellipse cx="58" cy="88" rx="30" ry="44" fill="#e55" opacity="0.65"/>
+          <ellipse cx="58" cy="88" rx="18" ry="28" fill="#c33" opacity="0.45"/>
+          <ellipse cx="78" cy="88" rx="12" ry="20" fill="#b22" opacity="0.5"/>
+          <ellipse cx="142" cy="88" rx="44" ry="60" fill="#d44" opacity="0.9"/>
+          <ellipse cx="142" cy="88" rx="30" ry="44" fill="#e55" opacity="0.65"/>
+          <ellipse cx="142" cy="88" rx="18" ry="28" fill="#c33" opacity="0.45"/>
+          <ellipse cx="122" cy="88" rx="12" ry="20" fill="#b22" opacity="0.5"/>
+          <rect x="96" y="48" width="8" height="60" rx="4" fill="#a00" opacity="0.85"/>
+          <path d="M96 70 Q82 66 72 68" stroke="#a00" stroke-width="4" fill="none"/>
+          <path d="M104 70 Q118 66 128 68" stroke="#a00" stroke-width="4" fill="none"/>
+          <path d="M78 108 Q100 128 100 155" stroke="#d44" stroke-width="6" fill="none"/>
+          <path d="M122 108 Q100 128 100 155" stroke="#d44" stroke-width="6" fill="none"/>
+          <ellipse cx="44" cy="66" rx="12" ry="7" fill="white" opacity="0.18" transform="rotate(-20 44 66)"/>
+          <ellipse cx="126" cy="66" rx="12" ry="7" fill="white" opacity="0.18" transform="rotate(20 126 66)"/>
+        </svg>
+      </div>
+    </div>
+
+  </div><!-- /track -->
+
+  <!-- Arrows -->
+  <button class="vh-arrow vh-prev" id="vhPrev" aria-label="Previous slide">&#8249;</button>
+  <button class="vh-arrow vh-next" id="vhNext" aria-label="Next slide">&#8250;</button>
+
+  <!-- Dots -->
+  <div class="vh-dots" id="vhDots">
+    <div class="vh-dot active" data-index="0"></div>
+    <div class="vh-dot" data-index="1"></div>
+    <div class="vh-dot" data-index="2"></div>
+    <div class="vh-dot" data-index="3"></div>
+  </div>
+
+</div><!-- /vh-slider -->
+
+<script>
+(function(){
+  var slider = document.getElementById('vhSlider');
+  var track  = document.getElementById('vhTrack');
+  var slides = track.querySelectorAll('.vh-slide');
+  var dots   = document.querySelectorAll('#vhDots .vh-dot');
+  var total  = slides.length;
+  var cur    = 0;
+  var timer;
+
+  function goTo(idx){
+    slides[cur].classList.remove('is-active');
+    dots[cur].classList.remove('active');
+    cur = (idx + total) % total;
+    track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+    slides[cur].classList.add('is-active');
+    dots[cur].classList.add('active');
+  }
+
+  function startTimer(){
+    clearInterval(timer);
+    timer = setInterval(function(){ goTo(cur + 1); }, 4500);
+  }
+
+  document.getElementById('vhNext').addEventListener('click', function(){
+    goTo(cur + 1); startTimer();
+  });
+  document.getElementById('vhPrev').addEventListener('click', function(){
+    goTo(cur - 1); startTimer();
+  });
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){
+      goTo(parseInt(d.dataset.index)); startTimer();
+    });
+  });
+
+  /* Touch swipe */
+  var sx = 0;
+  slider.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; },{passive:true});
+  slider.addEventListener('touchend', function(e){
+    var diff = sx - e.changedTouches[0].clientX;
+    if(Math.abs(diff) > 50){ goTo(cur + (diff > 0 ? 1 : -1)); startTimer(); }
+  },{passive:true});
+
+  /* Pause on hover */
+  slider.addEventListener('mouseenter', function(){ clearInterval(timer); });
+  slider.addEventListener('mouseleave', startTimer);
+
+  startTimer();
+})();
+</script>
